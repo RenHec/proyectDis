@@ -25,7 +25,7 @@
                 @endif
                 <div class="row">
                   <div class="col-12 text-right">
-                    @can('notes.create')
+                    @can('Crear Notas')
                       <a href="{{ route('notes.create') }}" class="btn btn-sm btn-primary">{{ __('Add user') }}</a>
                     @endcan
                   </div>
@@ -53,19 +53,16 @@
                             {{ $note->description }}
                           </td>
                           <td class="td-actions text-right">
-                            @can('notes.edit')
+                            @can('Editar Notas')
                               <a rel="tooltip" class="btn btn-success btn-link" href="{{ route('notes.edit', $note) }}" data-original-title="" title="">
                                 <i class="material-icons">edit</i>
                                 <div class="ripple-container"></div>
                               </a>
                             @endcan
-                            @can('notes.show')
-                              <a rel="tooltip" class="btn btn-info btn-link" href="{{ route('notes.show', $note) }}" data-original-title="" title="">
-                                <i class="material-icons">pageview</i>
-                                <div class="ripple-container"></div>
-                              </a>
+                            @can('Ver Notas')
+                              <a rel="tooltip" class="btn btn-small btn-info" href="{{ route('notes.show', $note) }}" data-original-title="" title="">Editar</a>
                             @endcan                            
-                            @can('notes.destroy')
+                            @can('Eliminar Notas')
                               <form action="{{ route('notes.destroy', $note) }}" method="post">
                                   @csrf
                                   @method('delete')
