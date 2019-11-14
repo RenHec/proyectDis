@@ -18,59 +18,61 @@
       <link href="{{ asset('material') }}/demo/demo.css" rel="stylesheet" />
       <!-- Bootstrap CSS -->
       <link rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
+
     </head>
     <body class="{{ $class ?? '' }}">
         @auth()
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                @csrf
-            </form>
-            @include('layouts.page_templates.auth')
+          <div class="loader"></div>
 
-        
-            <div class="fixed-plugin">
-              <div class="dropdown show-dropdown">
-                <a href="#" data-toggle="dropdown">
-                  <i class="fa fa-cog fa-2x"> </i>
-                </a>
-                <ul class="dropdown-menu">
-                  <li class="header-title"> Sidebar Filters</li>
-                  <li class="adjustments-line">
-                    <a href="javascript:void(0)" class="switch-trigger active-color">
-                      <div class="badge-colors ml-auto mr-auto">
-                        <span class="badge filter badge-purple " data-color="purple"></span>
-                        <span class="badge filter badge-azure" data-color="azure"></span>
-                        <span class="badge filter badge-green" data-color="green"></span>
-                        <span class="badge filter badge-warning active" data-color="orange"></span>
-                        <span class="badge filter badge-danger" data-color="danger"></span>
-                        <span class="badge filter badge-rose" data-color="rose"></span>
-                      </div>
-                      <div class="clearfix"></div>
-                    </a>
-                  </li>
-                  <li class="header-title">Images</li>
-                  <li class="active">
-                    <a class="img-holder switch-trigger" href="javascript:void(0)">
-                      <img src="{{ asset('material') }}/img/sidebar-1.jpg" alt="">
-                    </a>
-                  </li>
-                  <li>
-                    <a class="img-holder switch-trigger" href="javascript:void(0)">
-                      <img src="{{ asset('material') }}/img/sidebar-2.jpg" alt="">
-                    </a>
-                  </li>
-                  <li>
-                    <a class="img-holder switch-trigger" href="javascript:void(0)">
-                      <img src="{{ asset('material') }}/img/sidebar-3.jpg" alt="">
-                    </a>
-                  </li>
-                  <li>
-                    <a class="img-holder switch-trigger" href="javascript:void(0)">
-                      <img src="{{ asset('material') }}/img/sidebar-4.jpg" alt="">
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>            
+          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+              @csrf
+          </form>
+          @include('layouts.page_templates.auth')
+      
+          <div class="fixed-plugin">
+            <div class="dropdown show-dropdown">
+              <a href="#" data-toggle="dropdown">
+                <i class="fa fa-cog fa-2x"> </i>
+              </a>
+              <ul class="dropdown-menu">
+                <li class="header-title"> Sidebar Filters</li>
+                <li class="adjustments-line">
+                  <a href="javascript:void(0)" class="switch-trigger active-color">
+                    <div class="badge-colors ml-auto mr-auto">
+                      <span class="badge filter badge-purple " data-color="purple"></span>
+                      <span class="badge filter badge-azure" data-color="azure"></span>
+                      <span class="badge filter badge-green" data-color="green"></span>
+                      <span class="badge filter badge-warning active" data-color="orange"></span>
+                      <span class="badge filter badge-danger" data-color="danger"></span>
+                      <span class="badge filter badge-rose" data-color="rose"></span>
+                    </div>
+                    <div class="clearfix"></div>
+                  </a>
+                </li>
+                <li class="header-title">Images</li>
+                <li class="active">
+                  <a class="img-holder switch-trigger" href="javascript:void(0)">
+                    <img src="{{ asset('material') }}/img/sidebar-1.jpg" alt="">
+                  </a>
+                </li>
+                <li>
+                  <a class="img-holder switch-trigger" href="javascript:void(0)">
+                    <img src="{{ asset('material') }}/img/sidebar-2.jpg" alt="">
+                  </a>
+                </li>
+                <li>
+                  <a class="img-holder switch-trigger" href="javascript:void(0)">
+                    <img src="{{ asset('material') }}/img/sidebar-3.jpg" alt="">
+                  </a>
+                </li>
+                <li>
+                  <a class="img-holder switch-trigger" href="javascript:void(0)">
+                    <img src="{{ asset('material') }}/img/sidebar-4.jpg" alt="">
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
         @endauth
         @guest()
             @include('layouts.page_templates.guest')
@@ -81,6 +83,55 @@
         <script src="{{ asset('material') }}/js/core/popper.min.js"></script>
         <script src="{{ asset('material') }}/js/core/bootstrap-material-design.min.js"></script>
         <script src="{{ asset('material') }}/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+        <!-- Spinner (Loading) -->
+        <!-- Mesajes para JQuery Validate -->
+        <script>
+          $(document).ready(function() {
+            $(".loader").hide();
+            jQuery.extend(jQuery.validator.messages, {
+              required: "Este campo es obligatorio.",
+              remote: "Por favor, rellena este campo.",
+              email: "Por favor, escribe una dirección de correo válida",
+              url: "Por favor, escribe una URL válida.",
+              date: "Por favor, escribe una fecha válida.",
+              dateISO: "Por favor, escribe una fecha (ISO) válida.",
+              number: "Por favor, escribe un número entero válido.",
+              digits: "Por favor, escribe sólo dígitos.",
+              creditcard: "Por favor, escribe un número de tarjeta válido.",
+              equalTo: "Por favor, escribe el mismo valor de nuevo.",
+              accept: "Por favor, escribe un valor con una extensión aceptada.",
+              maxlength: jQuery.validator.format("Por favor, no escribas más de {0} caracteres."),
+              minlength: jQuery.validator.format("Por favor, no escribas menos de {0} caracteres."),
+              rangelength: jQuery.validator.format("Por favor, escribe un valor entre {0} y {1} caracteres."),
+              range: jQuery.validator.format("Por favor, escribe un valor entre {0} y {1}."),
+              max: jQuery.validator.format("Por favor, escribe un valor menor o igual a {0}."),
+              min: jQuery.validator.format("Por favor, escribe un valor mayor o igual a {0}.")
+            });
+
+            //Validaciones extras
+            $.validator.addMethod("alfanumOespacio", function(value, element) {
+                return /^[ a-z0-9áéíóúüñ]*$/i.test(value);
+            }, "Ingrese sólo letras, números o espacios.");
+
+            $.validator.addMethod("alfaOespacio", function(value, element) {
+                return /^[a-záéíóúüñ]*$/i.test(value);
+            }, "Ingrese sólo letras o espacios.");
+
+            $.validator.addMethod("valueNotEquals", function(value, element, arg){
+              return arg != value;
+            }, "Debe seleccionar la menos uno");    
+
+            //Pasar a mayusculas todo
+            $(document).ready( function () {
+                $("input").on("keypress", function () {
+                $input=$(this);
+                setTimeout(function () {
+                  $input.val($input.val().toUpperCase());
+                },50);
+                })
+              })             
+            });         
+        </script>
         <!-- DataTables -->
         <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>     
         <!-- Plugin for the momentJs  -->

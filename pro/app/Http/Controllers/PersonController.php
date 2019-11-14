@@ -2,21 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Municipality;
 use App\Models\Person;
 use Illuminate\Http\Request;
 use Datatables;
+use Illuminate\Support\Facades\Auth;
 
 class PersonController extends Controller
 {
     public function index()
     {
-        return view('sistema.person');
+        $municipios = Municipality::all();
+        return view('sistema.person',compact('municipios'));
     }
 
-    public function anyData(){
-        $users = Person::with('municipality')->get();
+    public function anyData()
+    {
+        $people = Person::with('municipality')->get();
 
-        return Datatables::of($users)
+        return Datatables::of($people)
             ->editColumn('created_at', function ($user) {
                 return $user->created_at->format('d/m/Y h:i:s a');
             })
@@ -30,11 +34,19 @@ class PersonController extends Controller
                 return $user->updated_at->format('d/m/Y h:i:s a');
             })
             ->addColumn('accion', function ($person) {
+                $user = Auth::user();                
                 $model = 'Person';
+                $acciones = '';
 
-                $acciones = "<a href='javascript:void(0)' data-toggle='tooltip'  data-id='{{ $person }}' data-original-title='Edit' class='btn btn-sm btn-warning btn-just-icon edit{{ $model }}'><i class='material-icons'>edit</i></a>";
-                $acciones .= "<a href='javascript:void(0)' data-toggle='tooltip'  data-id='{{ $person }}' data-original-title='Show' class='btn btn-sm btn-info btn-just-icon show{{ $model }}'><i class='material-icons'>pageview</i></a>";
-                $acciones .= "<a href='javascript:void(0)' data-toggle='tooltip'  data-id='{{ $person }}' data-original-title='Delete' class='btn btn-sm btn-danger btn-just-icon show{{ $model }}'><i class='material-icons'>delete</i></a>";
+                if($user->can('Editar Personas'))
+                    $acciones .= "<a href='javascript:void(0)' data-toggle='tooltip'  data-id='$person' data-original-title='Edit' class='btn btn-sm btn-warning btn-just-icon edit$model'><i class='material-icons'>edit</i></a>";
+
+                if($user->can('Ver Personas'))                    
+                    $acciones .= "<a href='javascript:void(0)' data-toggle='tooltip'  data-id='$person' data-original-title='Show' class='btn btn-sm btn-info btn-just-icon show$model'><i class='material-icons'>pageview</i></a>";
+
+                if($user->can('Eliminar Personas'))                
+                    $acciones .= "<a href='javascript:void(0)' data-toggle='tooltip'  data-id='$person' data-original-title='Delete' class='btn btn-sm btn-danger btn-just-icon show$model'><i class='material-icons'>delete</i></a>";
+
                 return $acciones;
             })    
             ->rawColumns(['accion'])        

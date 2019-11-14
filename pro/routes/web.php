@@ -32,7 +32,13 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::delete('notes/{note}', 'NoteController@destroy')->name('notes.destroy')->middleware('permission:Eliminar Notas');
 	Route::get('notes/{note}/edit', 'NoteController@edit')->name('notes.edit')->middleware('permission:Editar Notas');
 
-	Route::resource('persons', 'PersonController');
-	Route::get('anyData', 'PersonController@anyData')->name('persons.anyData');
+	Route::get('anyData', 'PersonController@anyData')->name('persons.anyData');	
+	Route::post('persons/store', 'PersonController@store')->name('persons.store')->middleware('permission:Crear Personas');
+	Route::get('persons', 'PersonController@index')->name('persons.index')->middleware('permission:Index Personas');
+	Route::get('persons/create', 'PersonController@create')->name('persons.create')->middleware('permission:Crear Personas');
+	Route::put('persons/{note}', 'PersonController@update')->name('persons.update')->middleware('permission:Editar Personas');
+	Route::get('persons/{note}', 'PersonController@show')->name('persons.show')->middleware('permission:Ver Personas');
+	Route::delete('persons/{note}', 'PersonController@destroy')->name('persons.destroy')->middleware('permission:Eliminar Personas');
+	Route::get('persons/{note}/edit', 'PersonController@edit')->name('persons.edit')->middleware('permission:Editar Personas');
 });
 

@@ -15,7 +15,7 @@ class Person extends Model
     protected $code = 'UTF-8';
     protected $table = 'people';
     protected $fillable = ['cui','name_one','name_two','last_name_one','last_name_two',
-                          'direction','email','municipalities_id'];
+                          'direction','email','municipalities_id','gender'];
 
     public function setCuiAttribute($value) {
         $this->attributes['cui'] = mb_strtoupper($value);
@@ -43,6 +43,10 @@ class Person extends Model
 
     public function setEmailAttribute($valor) {
         $this->attributes['email'] = mb_strtoupper($valor);  
+    }
+
+    public function setGenderAttribute($valor) {
+        $this->attributes['gender'] = mb_strtoupper($valor);  
     }
 
     public function municipality()

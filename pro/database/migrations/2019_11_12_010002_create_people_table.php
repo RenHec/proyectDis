@@ -16,6 +16,7 @@ class CreatePeopleTable extends Migration
             $table->string('last_name_one');
             $table->string('last_name_two')->nullable();   
             $table->string('direction'); 
+            $table->string('gender');
             $table->string('email')->unique();
             $table->unsignedBigInteger('municipalities_id');
             $table->foreign('municipalities_id')->references('id')->on('municipalities');  

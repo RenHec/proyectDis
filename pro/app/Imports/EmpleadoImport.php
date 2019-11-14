@@ -14,13 +14,14 @@ class EmpleadoImport implements ToCollection
     {
         foreach ($collection as $value) {
             $insert = new Person();
-            $insert->cui = $value[0];
+            $insert->cui = str_replace(' ','',$value[0]);
             $insert->name_one = $value[1];
             $insert->name_two = $value[2];
             $insert->last_name_one = $value[3];
             $insert->last_name_two = $value[4];
             $insert->direction = $value[5];
             $insert->email = $value[6];
+            $insert->gender = $value[7]; 
             $insert->municipalities_id = Municipality::all()->random()->id;
             if($insert->save())
             {
